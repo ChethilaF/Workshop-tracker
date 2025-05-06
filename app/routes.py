@@ -1,20 +1,20 @@
 from app import app
-from flask import render_template, abort
+from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'app.db'))
 db.init_app(app)
 
 
-import models as models
+import app.models as models
 
 
 @app.route('/')
-def root():
+def home():
     return render_template('home.html', page_title='Home', title='Home', description='Welcome to the home page.')
 
 
@@ -31,19 +31,31 @@ def contact():
 
 @app.route('/customers')
 def customers():
-    customers = models.Customer.query.all()
+    try:
+        customers = models.Customer.query.all()
+    except Exception as e:
+        customers = []
+        print(f"Error fetching customers: {e}")
     return render_template('customers.html', customers=customers, page_title='Customers', title='Customers', description='Welcome to the customers page.')
 
 
 @app.route('/technicians')
 def technicians():
-    technicians = models.Technician.query.all()
+    try:
+        technicians = models.Technician.query.all()
+    except Exception as e:
+        technicians = []
+        print(f"Error fetching technicians: {e}")
     return render_template('technicians.html', technicians=technicians, page_title='Technicians', title='Technicians', description='Welcome to the technicians page.')
 
 
 @app.route('/jobs')
 def jobs():
-    jobs = models.Job.query.all()
+    try:
+        jobs = models.Job.query.all()
+    except Exception as e:
+        jobs = []
+        print(f"Error fetching jobs: {e}")
     return render_template('jobs.html', jobs=jobs, page_title='Jobs', title='Jobs', description='Welcome to the jobs page.')
 
 
