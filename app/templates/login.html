@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>    
+   <a href="{{ url_for('auth.home') }}"
+
+   
+    <div style ="background-color: #BDC3C7; justify-content: center; padding: 10px 10px;  border-radius: 40px;  display: flex;  align-items: center;  width: 98%; top: 10px; ">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="width: 500px auto; height: 150px ; margin-left:5px; margin-right: 5px; ">
+    </div>
+      
+    </a>
+    
+
+</header>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #000000;
+        }
+        .outer_container {
+            border: #3B5998 2px solid;
+            border-radius: 40px;
+            color:#3B5998 ;
+        }
+        .login-container {
+            max-width:500px;
+            margin: 80px auto;
+            padding: 30px;
+            background: #7D9B9F;
+            border-radius: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+        .login-container input[type="text"] {
+            text-align: center;
+            width: 100%;
+            padding: 10px 0px 10px 0px;
+            background:#ffffff88; /* Silver color */
+            margin: 5px 0px 0px 0px;
+            border: 0px solid rgb(46, 79, 210);
+            border-radius: 0px;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+        .login-container input[type="text"]:focus {
+            outline: none;
+            background-color:#3B5998;
+            transition: background-color 0.5s ease;
+            
+        }
+        .login-container input[type="password"]:focus {
+            outline: none;
+            background-color:#3B5998;
+            transition: background-color 0.5s ease;
+        }
+
+        .login-container input[type="password"] {
+            text-align: center;
+            width: 100%;
+            padding: 10px 0px;
+            margin: 2px 0 10px 0;
+            background:#ffffff88; /* Silver color */
+            color: rgb(0, 0, 0);
+            border: 0px solid rgb(46, 79, 210);
+            border-radius: 0px;
+            border-bottom-left-radius: 40px;
+            border-bottom-right-radius: 40px;
+        }
+        .login-container input[type="submit"] {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.247);
+            color: rgb(0, 0, 0);
+            box-shadow: #000000 0px 19px 10px rgba(0, 0, 0, 0.5);
+            border: none;
+            padding: 10px 10px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-container input[type="submit"]:hover {
+            background: #45a049;
+            color: white;
+            border-radius: 40px;
+            align-items:center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: background 0.5s ease;
+            transform:scale(1.05);
+        }
+        .flash {
+            color: red;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .background-box {
+            position: absolute;
+            top: 188px; /* Adjust to place it under the silver bit */
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 98%;
+            height: 50%;
+            background: #BDC3C7; /* Silver color */
+            border-radius: 40px;
+            z-index: -1; /* Ensure it is behind the login box */
+        }
+    </style>
+</head>
+<body>
+
+<div class="background-box"></div>
+
+<div class="login-container">
+    <h2>Welcome</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">
+            {% for message in messages %}
+              {{ 'Try again, something went wrong' }}
+            {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Login">
+    </form>
+</div>
+
+</body>
+</html>

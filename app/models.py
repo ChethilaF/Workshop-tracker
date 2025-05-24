@@ -1,4 +1,10 @@
-from .routes import db
+from app.database import db
+from flask_login import UserMixin
+from sqlalchemy import ForeignKey
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.orm import relationship
 
 Jobs = db.Table('jobs',
     db.Column('job_id', db.Integer, db.ForeignKey('job.id'), primary_key=True),
@@ -39,3 +45,18 @@ class Job(db.Model):
 
     def __repr__(self):
         return f'{self.Job_description.upper()} JOB'
+
+
+class User(db.Model, UserMixin):
+    __tablename__ = 'user'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    role = db.Column(db.String(50), nullable=False, default='user')  # Added role column
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
